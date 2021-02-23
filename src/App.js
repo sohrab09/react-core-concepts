@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
 
 function App() {
   const stationary = ['Pencil', 'Rubber', 'Pen', 'Paper','Cutter', 'Tap Recorder', 'Diary', 'Ball Pen', 'Marker']
@@ -20,9 +21,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div>
           <h1>Hello World!</h1>
-        </div>
+        <Counter></Counter>
+
+        <Users></Users>
         <ul>
           {
             stationary.map(name => <li>{name}</li>)
@@ -69,6 +71,57 @@ function App() {
       </header>
     </div>
   );
+}
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  const handleIncrease = () => setCount(count + 1);
+    
+  //   // Shortcut System 
+  //   setCount(count + 1);
+
+  //   Another System 
+  //   const newCount = count + 1;
+  //   setCount(newCount);
+  // }
+  // const handleDecrease = () =>{
+   
+  //   // Shortcut System
+  //   setCount(count - 1);
+    
+  //   // Another System 
+  //   const newCount = count - 1;
+  //   setCount(newCount);
+  // }
+  return(
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={() => setCount(count - 1)}>Decrease</button>
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+    </div>
+  )
+}
+
+function Users() {
+  const [users, setUsers] = useState([]);
+  useEffect(()=>{
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res => res.json())
+    .then(data => setUsers(data));
+  }, [])
+  return(
+    <div>
+      <h2>Dynamic Users: {users.length} </h2>
+      <ul>
+        {
+          users.map(user =><li>Name: {user.name}, Phone: {user.phone}</li>)
+        }
+        {
+          users.map(user =><li>{user.phone}</li>)
+        }
+      </ul>
+    </div>
+  )
 }
 
 function Friends(props) {
